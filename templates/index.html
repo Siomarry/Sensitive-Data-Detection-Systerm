@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+
+    </style>
+
+    <title>Sensitive data Systerm</title>
+</head>
+
+<body>
+    <p align="center">Sensitive Data Detection Systerm</p>
+    <form action="" method="post">
+
+        <textarea name="new_str" style="width:200px;height:50px;margin:30px 350px;font-size:16px;border:3px solid;font-family: Georgia">
+            {% if ori_str %}
+            {{ ori_str }}
+            {% endif %}
+        </textarea>
+
+
+        <input type="submit" value="Sensitive data detection" style="margin:30px 500px;" id = "Detection">
+        <div id="output" style="width:500px;height:200px;margin:30px 350px;vertical-align:top;font-size:16px;font-family: Georgia;border:3px solid">
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    {% for label in E_data_labels %}
+                    <th>{{ label }} </th>
+                    {% endfor %}
+
+                </tr>
+                {% for e_data in E_data %}
+                <tr>
+                    {% for str in e_data %}
+                    <td>{{ str }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+<!--        <textarea style="width:500px;height:200px;margin:30px 350px;vertical-align:top" id = "textout">-->
+<!--        </textarea>-->
+    </form>
+
+
+
+<script>
+    document.getElementById("output").innerHTML = `{{get_str | safe}}`;
+</script>
+
+</body>
+</html>
+
+<!--"<span style = 'color:#ff0000'>" + {{get_str}}-->
+<!--{% if get_str %}-->
+<!--                {{ get_str }}-->
+<!--                {% endif %}-->

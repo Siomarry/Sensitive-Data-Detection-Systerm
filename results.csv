@@ -1,0 +1,8 @@
+,Value,Type,Class,Description
+0,peter@gmail.com,Text,Email address,an individual name that you use to receive email on the internet
+1,202.192.7.1,Text,Ip address,identifies a particular computer connected to the Internet
+2,is peter@gmail.com,Text,Domain name,a name which identifies a website or group of websites on the Internet
+3,peter.com,Text,Domain name,a name which identifies a website or group of websites on the Internet
+4,18382312429,Text,Phone Number,a series of digit numbers that you use to call a particular person on the telephone
+5,G28233515,Text,Passport,an official document that identifies you as a citizen of a particular country
+6,Peter,Text,Person,name of person

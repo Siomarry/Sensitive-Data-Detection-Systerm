@@ -27,6 +27,7 @@ def get_entities(seq, suffix=False):
         >>> seq = ['B-PER', 'I-PER', 'O', 'B-LOC']
         >>> get_entities(seq)
         [('PER', 0, 1), ('LOC', 3, 3)]
+
     """
     # for nested list
     if any(isinstance(s, list) for s in seq):

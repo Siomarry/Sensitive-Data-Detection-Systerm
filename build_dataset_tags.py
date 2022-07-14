@@ -75,36 +75,42 @@ def build_tags(data_dir, tags_file):
 
 
 if __name__ == '__main__':
-    args = parser.parse_args()
-
+    # args = parser.parse_args()
+    #
+    # data_dir = 'data/' + args.dataset
+    # path_train = data_dir + '/train_bio'
+    # path_val = data_dir + '/val_bio'
+    # path_test = data_dir + '/test_bio'
+    # msg = f'{path_train} or {path_test} file not found. Make sure you have downloaded the right dataset'
+    # assert os.path.isfile(path_train) and os.path.isfile(path_test), msg
+    #
+    # # Load the dataset into memory
+    # print('Loading ' + args.dataset.upper() + ' dataset into memory...')
+    # train = load_dataset(path_train)
+    # test = load_dataset(path_test)
+    # if os.path.exists(path_val):
+    #     val = load_dataset(path_val)
+    # else:
+    #     total_train_len = len(train)
+    #     split_val_len = int(total_train_len * 0.05)
+    #     order = list(range(total_train_len))
+    #     random.seed(2019)
+    #     random.shuffle(order)
+    #
+    #     # Split the dataset into train, val(split with shuffle) and test
+    #     val = [train[idx] for idx in order[:split_val_len]]
+    #     train = [train[idx] for idx in order[split_val_len:]]
+    #
+    # save_dataset(train, data_dir + '/train')
+    # save_dataset(val, data_dir + '/val')
+    # save_dataset(test, data_dir + '/test')
+    #
+    # # Build tags from dataset
+    # build_tags(data_dir, data_dir + '/tags.txt')
+    args = parser.parse_args()  # 默认是conll文件夹
     data_dir = 'data/' + args.dataset
-    path_train = data_dir + '/train_bio'
-    path_val = data_dir + '/val_bio'
-    path_test = data_dir + '/test_bio'
-    msg = f'{path_train} or {path_test} file not found. Make sure you have downloaded the right dataset'
-    assert os.path.isfile(path_train) and os.path.isfile(path_test), msg
-    
-    # Load the dataset into memory
-    print('Loading ' + args.dataset.upper() + ' dataset into memory...')
+    path_train = data_dir + '/train-1.txt'
     train = load_dataset(path_train)
-    test = load_dataset(path_test)
-    if os.path.exists(path_val):
-        val = load_dataset(path_val)
-    else:
-        total_train_len = len(train)
-        split_val_len = int(total_train_len * 0.05)
-        order = list(range(total_train_len))
-        random.seed(2019)
-        random.shuffle(order)
-
-        # Split the dataset into train, val(split with shuffle) and test
-        val = [train[idx] for idx in order[:split_val_len]] 
-        train = [train[idx] for idx in order[split_val_len:]]
-    
-    save_dataset(train, data_dir + '/train')
-    save_dataset(val, data_dir + '/val')
-    save_dataset(test, data_dir + '/test')
-
-    # Build tags from dataset
-    build_tags(data_dir, data_dir + '/tags.txt')
+    save_dataset(train, data_dir + '/NCBI-Disease')
+    print("1")
 

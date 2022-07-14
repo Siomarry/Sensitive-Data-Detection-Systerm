@@ -1,6 +1,6 @@
 from transformers.modeling_bert import *
 from torch.nn.utils.rnn import pad_sequence
-
+from torchcrf import CRF
 
 class BertForSequenceTagging(BertPreTrainedModel):
 	def __init__(self, config):
@@ -10,7 +10,7 @@ class BertForSequenceTagging(BertPreTrainedModel):
 		self.bert = BertModel(config)
 		self.dropout = nn.Dropout(config.hidden_dropout_prob)
 		self.classifier = nn.Linear(config.hidden_size, config.num_labels)
-
+		self.crf = CRF(config.num_labels, batch_first = True)
 		self.init_weights()
 
 	def forward(self, input_data, token_type_ids=None, attention_mask=None, labels=None,
@@ -42,17 +42,22 @@ class BertForSequenceTagging(BertPreTrainedModel):
 		logits = self.classifier(padded_sequence_output)
 
 		outputs = (logits,)
+		# if labels is not None:
+		# 	loss_mask = labels.gt(-1)
+		# 	loss_fct = CrossEntropyLoss()
+		# 	# Only keep active parts of the loss
+		# 	if loss_mask is not None:
+		# 		active_loss = loss_mask.view(-1) == 1
+		# 		active_logits = logits. view(-1, self.num_labels)[active_loss]
+		# 		active_labels = labels.view(-1)[active_loss]
+		# 		loss = loss_fct(active_logits, active_labels)
+		# 	else:
+		# 		loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+		# 	outputs = (loss,) + outputs
 		if labels is not None:
+
 			loss_mask = labels.gt(-1)
-			loss_fct = CrossEntropyLoss()
-			# Only keep active parts of the loss
-			if loss_mask is not None:
-				active_loss = loss_mask.view(-1) == 1
-				active_logits = logits.view(-1, self.num_labels)[active_loss]
-				active_labels = labels.view(-1)[active_loss]
-				loss = loss_fct(active_logits, active_labels)
-			else:
-				loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+			loss = self.crf(logits, labels, loss_mask) * (-1)
 			outputs = (loss,) + outputs
 
 		return outputs  # (loss), scores
